@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api:
+    image: subscriber-api:1.0
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    entrypoint: ["./wait-for-db.sh", "db", "npm", "start"]
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: db_forms
+      MYSQL_PASSWORD: root@123
+      MYSQL_ROOT_PASSWORD: root@123
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
